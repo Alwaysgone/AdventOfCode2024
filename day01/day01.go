@@ -43,6 +43,7 @@ func main() {
 		secondSet = append(secondSet, val)
 	}
 	part01(firstSet, secondSet)
+	part02(firstSet, secondSet)
 }
 
 func part01(firstSet []int, secondSet []int) {
@@ -51,6 +52,20 @@ func part01(firstSet []int, secondSet []int) {
 	diffSum := 0
 	for i := range firstSet {
 		diffSum += diff(firstSet[i], secondSet[i])
+	}
+	fmt.Println(diffSum)
+}
+
+func part02(firstSet []int, secondSet []int) {
+	diffSum := 0
+	for i := range firstSet {
+		occurrence := 0
+		for j := range secondSet {
+			if firstSet[i] == secondSet[j] {
+				occurrence++
+			}
+		}
+		diffSum += firstSet[i] * occurrence
 	}
 	fmt.Println(diffSum)
 }
