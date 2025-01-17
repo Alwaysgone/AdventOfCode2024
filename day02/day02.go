@@ -71,6 +71,7 @@ func part02(sc *bufio.Scanner) {
 			}
 			report[v] = val
 		}
+
 		safe, faultOccurrence := isSafeReport(report)
 		if safe {
 			safeReports++
@@ -104,7 +105,6 @@ func part02(sc *bufio.Scanner) {
 			if copy1Safe || copy2Safe {
 				safeReports++
 			}
-
 		}
 	}
 	fmt.Println(safeReports)
@@ -124,4 +124,21 @@ func isSafeReport(report []int) (bool, int) {
 		lastDiffValue = currentDiffValue
 	}
 	return true, -1
+}
+
+func isSafeReport2(report []int) bool {
+	lastDiffValue := report[0] - report[1]
+	badLevelCount := 0
+	if !safeDiff(lastDiffValue) {
+		badLevelCount++
+	}
+	for i := 2; i < len(report); i++ {
+		currentDiffValue := report[i-1] - report[i]
+		sameSign := (lastDiffValue * currentDiffValue) > 0
+		if !sameSign || !safeDiff(currentDiffValue) {
+			badLevelCount++
+		}
+		lastDiffValue = currentDiffValue
+	}
+	return badLevelCount <= 1
 }
